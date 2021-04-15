@@ -15,9 +15,14 @@ public class Inventory
 
     public HashMap<Product, Integer> getTotalProducts() { return totalProducts; }
 
-    public void add(Product product)
+    public int getStock(Product product)
     {
-        totalProducts.put(product, 1);
+        return totalProducts.get(product);
+    }
+
+    public void add(Product product, int stock)
+    {
+        totalProducts.put(product, stock);
     }
 
     public void remove(Product product)
@@ -28,5 +33,11 @@ public class Inventory
     public void changeStock(Product product, int stock)
     {
         totalProducts.replace(product, stock);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "";
     }
 }

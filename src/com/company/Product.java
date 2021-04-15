@@ -4,16 +4,19 @@ import java.time.LocalDate;
 
 public class Product
 {
-    private final String name;
-    private final String category;
-    private final double weight;
-    private final double price;
-    private final LocalDate manufactureDate;
-    private final LocalDate expirationDate;
+    private String name;
+    private String category;
+    private double weight;
+    private double price;
+    private LocalDate manufactureDate;
+    private LocalDate expirationDate;
 
     public Product(String name, String category, double weight, double price,
                    LocalDate manufactureDate, LocalDate expirationDate)
     {
+        if (manufactureDate.isAfter(expirationDate))
+            return;
+
         this.name = name;
         this.category = category;
         this.weight = weight;
@@ -33,4 +36,10 @@ public class Product
     public LocalDate getManufactureDate() { return manufactureDate; }
 
     public LocalDate getExpirationDate() { return expirationDate; }
+
+    @Override
+    public String toString()
+    {
+        return "";
+    }
 }
