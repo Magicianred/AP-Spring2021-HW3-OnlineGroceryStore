@@ -4,23 +4,29 @@ import java.util.ArrayList;
 
 public class Basket
 {
-    ArrayList<Product> products;
+    private ArrayList<Product> products;
 
     public Basket()
     {
         products = new ArrayList<>();
     }
 
-    public void addProduct(Product product, Inventory inventory)
+    public ArrayList<Product> getProducts() { return products; }
+
+    public void setProducts(ArrayList<Product> products) { this.products = products; }
+
+    public void addProduct(int i, Inventory inventory)
     {
+        Product product = products.get(i);                // get the product using its index
         int stock = inventory.getStock(product);          // get the current stock of the product
         inventory.changeStock(product, stock - 1);  // decrement the product's stock by 1
         products.add(product);                            // add the product to the cart
     }
 
-    public void removeProduct(Product product, Inventory inventory)
+    public void removeProduct(int i, Inventory inventory)
     {
-        if (existsInBasket(product))
+        Product product = products.get(i);                    // get the product using its index
+        if (existsInBasket(product))                          // check if the product exists in the basket
         {
             int stock = inventory.getStock(product);          // get the current stock of the product
             inventory.changeStock(product, stock + 1);  // decrement the product's stock by 1

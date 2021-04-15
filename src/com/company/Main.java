@@ -65,10 +65,32 @@ public class Main
                 manufactureDate, expirationDate);
         inventory.add(cheese, 50);
     }
+
+    public static void addToCart(int index, Basket basket, Inventory inventory)
+    {
+        if (index >= 0 && index < inventory.getTotalProducts().size())
+        {
+            basket.addProduct(index, inventory);
+            return;
+        }
+        System.out.println("Invalid index!");
+    }
+
+    public static void removeFromCart(int index, Basket basket, Inventory inventory)
+    {
+        if (index >= 0 && index < basket.getProducts().size())
+        {
+            basket.removeProduct(index, inventory);
+            return;
+        }
+        System.out.println("Invalid index!");
+    }
+
     public static void main(String[] args)
     {
         Inventory inventory = new Inventory();
         initInventory(inventory);
+        Basket basket = new Basket();
 
         // wait for the user's commands
         Scanner scanner =  new Scanner(System.in);
@@ -80,10 +102,14 @@ public class Main
             if (input.startsWith("add"))
             {
                 // add a product using its index
+                int index = Integer.parseInt(input.substring(4));
+                addToCart(index, basket, inventory);
             }
             else if (input.startsWith("remove"))
             {
                 // remove the index
+                int index = Integer.parseInt(input.substring(7));
+                removeFromCart(index, basket, inventory);
             }
             else if (input.equals("cart"))
             {
