@@ -1,6 +1,7 @@
 package com.company;
 
 import java.time.LocalDate;
+import org.json.simple.JSONObject;
 
 public class Product
 {
@@ -15,6 +16,8 @@ public class Product
                    LocalDate manufactureDate, LocalDate expirationDate)
     {
         if (manufactureDate.isAfter(expirationDate))
+            return;
+        if (price < 0 || weight < 0)
             return;
 
         this.name = name;
@@ -40,6 +43,19 @@ public class Product
     @Override
     public String toString()
     {
-        return "";
+        String result = "";
+        return result;
+    }
+
+    public JSONObject toJson()
+    {
+        JSONObject product = new JSONObject();
+        product.put("NAME", name);
+        product.put("CATEGORY", category);
+        product.put("WEIGHT", weight);
+        product.put("PRICE", price);
+        product.put("MANUFACTURE_DATE", manufactureDate.toString());
+        product.put("EXPIRATION_DATE", expirationDate.toString());
+        return product;
     }
 }

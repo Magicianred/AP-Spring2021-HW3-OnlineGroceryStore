@@ -1,6 +1,7 @@
 package com.company;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main
@@ -66,20 +67,34 @@ public class Main
         inventory.add(cheese, 50);
     }
 
-    public static void addToCart(int index, Basket basket, Inventory inventory)
+    public static void addToCart(Product product, Basket basket, Inventory inventory)
     {
-        if (index >= 0 && index < inventory.getTotalProducts().size())
+        if (product == null)
+            return;
+        if (inventory.getTotalProducts().get(product) == 0)
         {
-            basket.addProduct(index, inventory);
+            System.out.println("We're out of " + product.getName() + "!");
             return;
         }
-        System.out.println("Invalid index!");
+        basket.addProduct(product, inventory);
+        System.out.println(product.getName() + " added to your basket.");
+    }
+
+    public static Product getProductFromInventory(ArrayList<Product> products, int index)
+    {
+        if (products == null)
+            return null;
+        if (index >= 0 && index < products.size())
+            return products.get(index);
+        System.out.println("invalid index!");
+        return null;
     }
 
     public static void removeFromCart(int index, Basket basket, Inventory inventory)
     {
         if (index >= 0 && index < basket.getProducts().size())
         {
+            System.out.println(basket.getProducts().get(index).getName() + " removed.");
             basket.removeProduct(index, inventory);
             return;
         }
@@ -91,6 +106,7 @@ public class Main
         Inventory inventory = new Inventory();
         initInventory(inventory);
         Basket basket = new Basket();
+        ArrayList<Product> inventoryProducts = new ArrayList<>();
 
         // wait for the user's commands
         Scanner scanner =  new Scanner(System.in);
@@ -102,22 +118,24 @@ public class Main
             if (input.startsWith("add"))
             {
                 // add a product using its index
-                int index = Integer.parseInt(input.substring(4));
-                addToCart(index, basket, inventory);
+                int index = Integer.parseInt(input.substring(4)) - 1;
+                addToCart(getProductFromInventory(inventoryProducts, index), basket, inventory);
             }
             else if (input.startsWith("remove"))
             {
                 // remove the index
-                int index = Integer.parseInt(input.substring(7));
+                int index = Integer.parseInt(input.substring(7)) - 1;
                 removeFromCart(index, basket, inventory);
             }
             else if (input.equals("cart"))
             {
                 // print all the products in the basket (JSON)
+                basket.displayInJsonFormat();
             }
             else if (input.equals("products"))
             {
                 // print all the products in the inventory (JSON)
+                inventoryProducts = inventory.displayInJsonFormat();
             }
             else if (input.equals("checkout"))
             {

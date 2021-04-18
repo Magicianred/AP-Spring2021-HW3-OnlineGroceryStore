@@ -1,6 +1,7 @@
 package com.company;
 
 import java.util.ArrayList;
+import org.json.simple.JSONObject;
 
 public class Basket
 {
@@ -15,9 +16,8 @@ public class Basket
 
     public void setProducts(ArrayList<Product> products) { this.products = products; }
 
-    public void addProduct(int i, Inventory inventory)
+    public void addProduct(Product product, Inventory inventory)
     {
-        Product product = products.get(i);                // get the product using its index
         int stock = inventory.getStock(product);          // get the current stock of the product
         inventory.changeStock(product, stock - 1);  // decrement the product's stock by 1
         products.add(product);                            // add the product to the cart
@@ -60,5 +60,24 @@ public class Basket
     public String toString()
     {
         return "";
+    }
+
+    public void displayInJsonFormat()
+    {
+        if (products.isEmpty())
+        {
+            System.out.println("List is empty.");
+            return;
+        }
+        System.out.println("Itemsincart");
+        JSONObject basket = new JSONObject();
+        int i = 1;
+        for (Product p : products)
+        {
+            System.out.print(i + "){");
+            basket.put("Product", p.toJson());
+            System.out.println(basket.toJSONString() + "}");
+            i++;
+        }
     }
 }

@@ -1,6 +1,9 @@
 package com.company;
 
 import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Map;
+import org.json.simple.JSONObject;
 
 public class Inventory
 {
@@ -11,7 +14,9 @@ public class Inventory
         totalProducts = new HashMap<>();
     }
 
-    public void setTotalProducts(HashMap<Product, Integer> totalProducts) { this.totalProducts = totalProducts; }
+    public void setTotalProducts(HashMap<Product, Integer> totalProducts) {
+        this.totalProducts = totalProducts;
+    }
 
     public HashMap<Product, Integer> getTotalProducts() { return totalProducts; }
 
@@ -38,6 +43,29 @@ public class Inventory
     @Override
     public String toString()
     {
-        return "";
+        String result = "";
+        return result;
+    }
+
+    public ArrayList<Product> displayInJsonFormat()
+    {
+        if (totalProducts.isEmpty())
+        {
+            System.out.println("List is empty");
+            return null;
+        }
+        JSONObject inventory = new JSONObject();
+        ArrayList<Product> productArrayList = new ArrayList<>();
+        int i = 1;
+        for (Map.Entry<Product, Integer> entry : totalProducts.entrySet())
+        {
+            System.out.print(i + "){");
+            inventory.put("Product", entry.getKey().toJson());
+            inventory.put("instock", entry.getValue());
+            productArrayList.add(entry.getKey());
+            System.out.println(inventory.toJSONString() + "}");
+            i++;
+        }
+        return productArrayList;
     }
 }
