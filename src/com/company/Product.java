@@ -43,11 +43,12 @@ public class Product
     @Override
     public String toString()
     {
-        String result = "";
-        return result;
+        return "name: " + name + "\ncategory: " + category + "\nweight: " + weight
+                + "\nprice: " + price + "\nmanufacture date: " + manufactureDate.toString()
+                + "\nexpiration date : " + expirationDate.toString();
     }
 
-    public JSONObject toJson()
+    public JSONObject toJsonObject()
     {
         JSONObject product = new JSONObject();
         product.put("NAME", name);

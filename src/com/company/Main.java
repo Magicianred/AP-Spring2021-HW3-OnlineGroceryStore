@@ -106,7 +106,7 @@ public class Main
         Inventory inventory = new Inventory();
         initInventory(inventory);
         Basket basket = new Basket();
-        ArrayList<Product> inventoryProducts = new ArrayList<>();
+        ArrayList<Product> inventoryProducts = inventory.getArrayListOfProducts();
 
         // wait for the user's commands
         Scanner scanner =  new Scanner(System.in);
@@ -130,12 +130,13 @@ public class Main
             else if (input.equals("cart"))
             {
                 // print all the products in the basket (JSON)
-                basket.displayInJsonFormat();
+                System.out.println(basket);
+                System.out.println("Total price: " + basket.totalPrice());
             }
             else if (input.equals("products"))
             {
                 // print all the products in the inventory (JSON)
-                inventoryProducts = inventory.displayInJsonFormat();
+                System.out.println(inventory);
             }
             else if (input.equals("checkout"))
             {

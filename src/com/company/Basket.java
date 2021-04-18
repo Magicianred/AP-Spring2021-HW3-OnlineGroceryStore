@@ -59,25 +59,23 @@ public class Basket
     @Override
     public String toString()
     {
-        return "";
-    }
-
-    public void displayInJsonFormat()
-    {
+        // print a message if the list is empty
         if (products.isEmpty())
-        {
-            System.out.println("List is empty.");
-            return;
-        }
-        System.out.println("Itemsincart");
+            return "List is empty";
+
+        StringBuilder result = new StringBuilder();
+        result.append("Itemsincart");
         JSONObject basket = new JSONObject();
         int i = 1;
+        // iterate the products ArrayList and convert each product into json string format
         for (Product p : products)
         {
-            System.out.print(i + "){");
-            basket.put("Product", p.toJson());
-            System.out.println(basket.toJSONString() + "}");
+            result.append(i).append("){");
+            basket.put("Product", p.toJsonObject());
+            result.append(basket.toJSONString()).append("}\n");
             i++;
         }
+
+        return result.toString();
     }
 }
