@@ -1,11 +1,20 @@
 package com.company;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * The program's execution is started form here.
+ * @author KIMIA
+ * @version 1.0
+ * @since 4-15-2021
+ */
 public class Main
 {
+    /**
+     * Adds 8 default products to the inventory.
+     * @param inventory the current inventory
+     */
     public static void initInventory(Inventory inventory)
     {
         LocalDate manufactureDate, expirationDate;
@@ -67,46 +76,11 @@ public class Main
         inventory.add(cheese, 50);
     }
 
-    public static void addToCart(Product product, Basket basket, Inventory inventory)
-    {
-        if (product == null)
-            return;
-        if (inventory.getTotalProducts().get(product) == 0)
-        {
-            System.out.println("We're out of " + product.getName() + "!");
-            return;
-        }
-        basket.addProduct(product, inventory);
-        System.out.println(product.getName() + " added to your basket.");
-    }
-
-    public static Product getProductFromInventory(ArrayList<Product> products, int index)
-    {
-        if (products == null)
-            return null;
-        if (index >= 0 && index < products.size())
-            return products.get(index);
-        System.out.println("invalid index!");
-        return null;
-    }
-
-    public static void removeFromCart(int index, Basket basket, Inventory inventory)
-    {
-        if (index >= 0 && index < basket.getProducts().size())
-        {
-            System.out.println(basket.getProducts().get(index).getName() + " removed.");
-            basket.removeProduct(index, inventory);
-            return;
-        }
-        System.out.println("Invalid index!");
-    }
-
     public static void main(String[] args)
     {
         Inventory inventory = new Inventory();
         initInventory(inventory);
         Basket basket = new Basket();
-        ArrayList<Product> inventoryProducts = inventory.getArrayListOfProducts();
 
         // wait for the user's commands
         Scanner scanner =  new Scanner(System.in);
@@ -119,13 +93,18 @@ public class Main
             {
                 // add a product using its index
                 int index = Integer.parseInt(input.substring(4)) - 1;
-                addToCart(getProductFromInventory(inventoryProducts, index), basket, inventory);
+                // the called method returns null if the given index is not valid
+                Product productToAdd = inventory.getProductByIndex(index);
+                // the adding process fails if the index is out of boundary and productToAdd is null
+                if (productToAdd != null)
+                    basket.addProduct(productToAdd, inventory);
             }
             else if (input.startsWith("remove"))
             {
-                // remove the index
+                // remove a product using its index
                 int index = Integer.parseInt(input.substring(7)) - 1;
-                removeFromCart(index, basket, inventory);
+                // the removing process fails if the index is out of boundary
+                basket.removeProduct(index, inventory);
             }
             else if (input.equals("cart"))
             {
@@ -141,7 +120,7 @@ public class Main
             else if (input.equals("checkout"))
             {
                 System.out.println("It was a pleasure doing business with you.");
-                break;
+                break; // break from the while loop and end the program
             }
         }
     }
